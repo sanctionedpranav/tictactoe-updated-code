@@ -1,0 +1,140 @@
+:root {
+  --cell-size: 200px;
+  --mark-size: calc(var(--cell-size) * 0.9);
+  --white: #fff;
+  --black: #000;
+  --lightgrey: lightgrey;
+  --msg-position: 0;
+  --center-position: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+/* Adjust Border */
+.board {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  justify-content: var(--center-position);
+  align-content: var(--center-position);
+  justify-items: var(--center-position);
+  align-content: var(--center-position);
+  grid-template-columns: repeat(3, auto);
+}
+/* Cell Adjust */
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  border: 2px solid var(--black);
+  display: flex;
+  justify-content: var(--center-position);
+  align-items: var(--center-position);
+  position: relative;
+  cursor: pointer;
+}
+/* Removed Borders */
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3) {
+  border-top: none;
+}
+.cell:nth-child(3n + 1) {
+  border-left: none;
+}
+.cell:nth-child(3n) {
+  border-right: none;
+}
+.cell:nth-child(n + 7) {
+  border-bottom: none;
+}
+/* Disabling cursor on already selected cell */
+.cell.x,
+.cell.o {
+  cursor: not-allowed;
+}
+/* Making X */
+.cell.x::before,
+.cell.x::after,
+.board.x .cell:not(.x):not(.o):hover:before,
+.board.x .cell:not(.x):not(.o):hover:after {
+  content: "";
+  position: absolute;
+  width: calc(var(--mark-size) * 0.15);
+  height: var(--mark-size);
+  background-color: var(--black);
+}
+/* Hover Effect for X turn */
+.board.x .cell:not(.x):not(.o):hover:before,
+.board.x .cell:not(.x):not(.o):hover:after {
+  background-color: var(--lightgrey);
+}
+.cell.x::before,
+.board.x .cell:not(.x):not(.o):before {
+  transform: rotate(45deg);
+}
+.cell.x::after,
+.board.x .cell:not(.x):not(.o):after {
+  transform: rotate(-45deg);
+}
+/* Making O */
+.cell.o::before,
+.cell.o::after,
+.board.o .cell:not(.x):not(.o):hover:before,
+.board.o .cell:not(.x):not(.o):hover:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+.cell.o::before,
+.board.o .cell:not(.x):not(.o):hover:before {
+  width: var(--mark-size);
+  height: var(--mark-size);
+  background-color: var(--black);
+}
+/* Hover Effect for O turn */
+.board.o .cell:not(.x):not(.o):hover:before,
+.board.o .cell:not(.x):not(.o):hover:after {
+  background-color: var(--lightgrey);
+}
+.cell.o::after,
+.board.o .cell:not(.x):not(.o):hover:after {
+  width: calc(var(--mark-size) * 0.7);
+  height: calc(var(--mark-size) * 0.7);
+  background-color: var(--white);
+}
+
+.win-message {
+  display: none;
+  position: fixed;
+  top: var(--msg-position);
+  right: var(--msg-position);
+  bottom: var(--msg-position);
+  left: var(--msg-position);
+  background-color: rgba(0, 0, 0, 0.9);
+
+  font-size: 10rem;
+  color: #fff;
+}
+.win-message.show{
+  display: flex;
+  justify-content: var(--center-position);
+  align-items: var(--center-position);
+  flex-direction: column;
+}
+.win-message button {
+  font-size: 3rem;
+  padding: 0.6rem 2.2rem;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+.win-message button:hover {
+  background-color: var(--black);
+  color: var(--white);
+  border: 2px solid var(--white);
+}
